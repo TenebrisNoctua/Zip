@@ -25,6 +25,22 @@ export type Extraction = {
 
 export type HashAlgorithm = "md5" | "blake2b-128" | "blake2b-256"
 
+--[=[
+	Options for `zip.pack`.
+]=]
+export type PackOptions = {
+	-- Whether entries are deflated, each one only when that makes it smaller. True when left out.
+	compress: boolean?
+}
+
+--[=[
+	What `zip.pack` wrote, how many entries, and the archive's size in bytes.
+]=]
+export type Packing = {
+	entries: number,
+	size: number
+}
+
 local zip = {}
 
 --[=[
@@ -60,6 +76,20 @@ end
 	folder, such as "../x", raises before anything is written.
 ]=]
 function zip.extract(path: string, targets: { [string]: string | { string } } | string): Extraction
+    return nil :: any
+end
+
+--[=[
+	Writes a zip archive, replacing a file already there. Folders are entries of their own, so empty ones
+	come back with zip.extract, and their contents are in name order. Names are UTF-8.
+
+	@param path The archive to write.
+	@param sources A folder: everything in it, named from the folder. Or each entry name, and the file or
+	folder that goes under it. Names that would end up outside the folder zip.extract writes into, such as
+	"../x", raise.
+	@param options See `PackOptions`.
+]=]
+function zip.pack(path: string, sources: string | { [string]: string }, options: PackOptions?): Packing
     return nil :: any
 end
 
